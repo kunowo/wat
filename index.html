@@ -10,115 +10,168 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 body{
-background:linear-gradient(135deg,#0f0f14,#1a1a25);
-height:100vh;
-overflow:hidden;
-color:white;
+  background:linear-gradient(135deg,#0f0f14,#1a1a25);
+  height:100vh;
+  overflow:hidden;
+  color:white;
+  position:relative;
+}
+
+/* PARTICLE BACKGROUND */
+#particles{
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index:0;
+  pointer-events:none;
 }
 
 /* SPLASH */
 .splash{
-position:fixed;
-width:100%;
-height:100%;
-background:#000;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-z-index:9999;
-animation:fadeOut 1s ease forwards;
-animation-delay:3s;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:9999;
+  animation:fadeOut 1s ease forwards;
+  animation-delay:3s;
 }
 .splash img{width:120px;animation:pop 1.5s infinite alternate;}
+.splash h2{
+  margin-top:15px;
+  font-weight:600;
+  font-size:22px;
+  animation:fadeText 1.5s infinite alternate;
+}
 @keyframes pop{from{transform:scale(1);}to{transform:scale(1.1);}}
 @keyframes fadeOut{to{opacity:0;visibility:hidden;}}
+@keyframes fadeText{from{opacity:0.6;}to{opacity:1;}}
 
 /* APP STORE */
 .appstore{
-position:fixed;
-width:100%;
-height:100%;
-background:#111;
-padding:25px;
-z-index:999;
-display:flex;
-flex-direction:column;
-gap:20px;
-animation:hideStore 1s ease forwards;
-animation-delay:15s;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(17,17,17,0.95);
+  padding:25px;
+  z-index:999;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  animation:hideStore 1s ease forwards;
+  animation-delay:15s;
+  overflow-y:auto;
 }
 @keyframes hideStore{to{opacity:0;visibility:hidden;}}
-
 .store-title{
-font-size:24px;
-font-weight:800;
-text-align:center;
-margin-bottom:10px;
+  font-size:24px;
+  font-weight:800;
+  text-align:center;
+  margin-bottom:10px;
+  letter-spacing:1px;
 }
-
 .store-item{
-background:rgba(255,255,255,0.05);
-border-radius:20px;
-padding:15px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-backdrop-filter:blur(10px);
-transition:.3s;
+  background:rgba(255,255,255,0.05);
+  border-radius:20px;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  backdrop-filter:blur(10px);
+  transition:.3s;
+  position:relative;
+  overflow:hidden;
 }
-
+.store-item:hover{
+  transform:scale(1.02);
+  box-shadow:0 10px 30px rgba(0,255,153,0.3);
+}
 .store-left{
-display:flex;
-align-items:center;
-gap:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
-
 .store-left img{
-width:50px;
-border-radius:14px;
+  width:50px;
+  border-radius:14px;
+  animation:iconPop 2s infinite alternate, floatIcon 4s ease-in-out infinite;
 }
+@keyframes iconPop{from{transform:scale(1);}to{transform:scale(1.1);}}
+@keyframes floatIcon{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
 
 .app-info h3{font-size:16px;}
 .app-info p{font-size:12px;opacity:.6;}
 
 .get-btn{
-padding:8px 18px;
-border-radius:20px;
-background:#007aff;
-font-weight:600;
-transition:.3s;
-cursor:pointer;
+  padding:8px 18px;
+  border-radius:20px;
+  background:#007aff;
+  font-weight:600;
+  transition:.3s, box-shadow .3s;
+  cursor:pointer;
 }
-.get-btn.pressed{transform:scale(.85);}
+.get-btn:hover{
+  background:#00ccff;
+  transform:scale(1.1);
+  box-shadow:0 0 15px #00ffcc;
+}
+.get-btn.pressed{
+  transform:scale(.85);
+  animation:flashBtn .3s;
+}
+@keyframes flashBtn{0%{background:#00ff99;}100%{background:#007aff;}}
 
 .progress{
-width:100px;
-height:8px;
-background:rgba(255,255,255,0.1);
-border-radius:10px;
-overflow:hidden;
-display:none;
+  width:100px;
+  height:8px;
+  background:rgba(255,255,255,0.1);
+  border-radius:10px;
+  overflow:hidden;
+  display:none;
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
 }
 
 .progress-bar{
-height:100%;
-width:0%;
-background:#00ff99;
+  height:100%;
+  width:0%;
+  background:#00ff99;
+  transition:width .2s;
 }
 
 .installed{
-font-size:13px;
-color:#00ff99;
-display:none;
+  font-size:13px;
+  color:#00ff99;
+  display:none;
 }
+
+/* Please Wait Text */
+.wait-text{
+  font-size:12px;
+  color:#00ff99;
+  opacity:0.7;
+  margin-top:5px;
+  display:none;
+  animation:blink 1s infinite;
+}
+@keyframes blink{0%,50%,100%{opacity:0.7;}25%,75%{opacity:0;}}
 
 /* MAIN UI */
 .container{
-padding:30px;
-opacity:0;
-animation:showMain 1s ease forwards;
-animation-delay:16s;
+  padding:30px;
+  opacity:0;
+  animation:showMain 1s ease forwards;
+  animation-delay:16s;
+  position:relative;
+  z-index:1;
 }
 @keyframes showMain{to{opacity:1;}}
 
@@ -127,103 +180,119 @@ animation-delay:16s;
 .header p{opacity:.6;margin-top:8px;}
 
 .apps{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:25px;
-justify-items:center;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:25px;
+  justify-items:center;
 }
 
 .app{
-width:90px;
-text-align:center;
-cursor:pointer;
-transition:.3s;
+  width:90px;
+  text-align:center;
+  cursor:pointer;
+  transition:.3s;
+  position:relative;
 }
 .app:active{transform:scale(.85);}
 .app:hover{transform:scale(1.1);}
-
 .app-icon{
-width:90px;
-height:90px;
-border-radius:25px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(15px);
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 10px 30px rgba(0,0,0,.5);
-transition:.3s;
+  width:90px;
+  height:90px;
+  border-radius:25px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+  transition:.3s, box-shadow .3s;
 }
+.app-icon:hover{box-shadow:0 10px 40px #00ff99;}
 .app-icon img{width:60%;}
 .app-name{margin-top:8px;font-size:14px;}
 
 /* FULLSCREEN APP */
 .fullscreen-app{
-position:fixed;
-width:100%;
-height:100%;
-background:#12121a;
-top:0;
-left:0;
-z-index:2000;
-display:flex;
-flex-direction:column;
-padding:30px;
-transform:scale(0);
-border-radius:40px;
-transition:.4s ease;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:#12121a;
+  top:0;
+  left:0;
+  z-index:2000;
+  display:flex;
+  flex-direction:column;
+  padding:30px;
+  transform:scale(0);
+  border-radius:40px;
+  transition:.4s ease, opacity .4s;
+  opacity:0;
 }
 .fullscreen-app.active{
-transform:scale(1);
-border-radius:0;
+  transform:scale(1);
+  border-radius:0;
+  opacity:1;
 }
 
 .close-app{
-margin-top:auto;
-text-align:center;
-opacity:.6;
-cursor:pointer;
-padding:15px;
+  margin-top:auto;
+  text-align:center;
+  opacity:.6;
+  cursor:pointer;
+  padding:15px;
+  transition:.3s;
 }
+.close-app:hover{opacity:1;color:#00ff99;}
 
 /* POPUP */
 .popup{
-position:fixed;
-bottom:-100%;
-left:0;
-width:100%;
-background:#1e1e2a;
-border-radius:25px 25px 0 0;
-padding:25px;
-box-shadow:0 -10px 40px rgba(0,0,0,.6);
-transition:.4s ease;
+  position:fixed;
+  bottom:-100%;
+  left:0;
+  width:100%;
+  background:#1e1e2a;
+  border-radius:25px 25px 0 0;
+  padding:25px;
+  box-shadow:0 -10px 40px rgba(0,0,0,.6);
+  transition:.4s ease;
 }
 .popup.active{bottom:0;}
 .btn{
-display:inline-block;
-padding:12px 18px;
-border-radius:12px;
-background:linear-gradient(135deg,#00ff99,#00ccff);
-color:black;
-font-weight:600;
-text-decoration:none;
-transition:.3s;
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#00ff99,#00ccff);
+  color:black;
+  font-weight:600;
+  text-decoration:none;
+  transition:.3s, box-shadow .3s;
 }
+.btn:hover{transform:scale(1.05);box-shadow:0 0 15px #00ff99;}
 .close{text-align:center;margin-top:15px;opacity:.5;cursor:pointer;}
 .footer{position:absolute;bottom:20px;width:100%;text-align:center;opacity:.4;font-size:12px;}
+
+/* Animated Background Gradient */
+@keyframes gradientBG{
+  0%{background:linear-gradient(135deg,#0f0f14,#1a1a25);}
+  50%{background:linear-gradient(135deg,#1a1a25,#0f0f14);}
+  100%{background:linear-gradient(135deg,#0f0f14,#1a1a25);}
+}
+body{animation:gradientBG 20s ease infinite;}
 </style>
 </head>
 <body>
 
+<!-- PARTICLE CANVAS -->
+<canvas id="particles"></canvas>
+
 <!-- SPLASH -->
 <div class="splash">
-<img src="WAT.png">
-<h2 style="margin-top:15px;">Launching WAT Society</h2>
+  <img src="WAT.png">
+  <h2>Launching WAT Society</h2>
 </div>
 
 <!-- APP STORE -->
 <div class="appstore">
-
 <div class="store-title">App Store</div>
 
 <div class="store-item">
@@ -231,7 +300,8 @@ transition:.3s;
 <img src="WAT.png">
 <div class="app-info">
 <h3>About</h3>
-<p>About the Community</p>
+<p>About the<br>Community</p>
+<div class="wait-text" id="wait1">Please wait...</div>
 </div>
 </div>
 <div class="get-btn" id="get1">GET</div>
@@ -241,10 +311,11 @@ transition:.3s;
 
 <div class="store-item">
 <div class="store-left">
-<src="">
+<img src="">
 <div class="app-info">
 <h3>Mission</h3>
-<p>Community Mission</p>
+<p>Community<br>Mission</p>
+<div class="wait-text" id="wait2">Please wait...</div>
 </div>
 </div>
 <div class="get-btn" id="get2">GET</div>
@@ -254,10 +325,11 @@ transition:.3s;
 
 <div class="store-item">
 <div class="store-left">
-<src="">
+<img src="">
 <div class="app-info">
 <h3>Join</h3>
-<p>Community Join Link </p>
+<p>Community<br>Join Link</p>
+<div class="wait-text" id="wait3">Please wait...</div>
 </div>
 </div>
 <div class="get-btn" id="get3">GET</div>
@@ -295,7 +367,7 @@ transition:.3s;
 <!-- FULLSCREEN APP -->
 <div class="fullscreen-app" id="fullApp">
 <h2 id="appTitle"></h2>
-<p id="appContent" style="margin-top:15px;opacity:.7;"></p>
+<p id="appContent" style="margin-top:15px;opacity:.7;white-space:pre-line;"></p>
 <a id="appBtn" class="btn" target="_blank" style="margin-top:20px;"></a>
 <div class="close-app" onclick="closeApp()">Close App</div>
 </div>
@@ -303,10 +375,39 @@ transition:.3s;
 <div class="footer">© 2026 WAT Society</div>
 
 <script>
-function autoDownload(get,prog,bar,ins,delay){
+// PARTICLE BACKGROUND
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let w, h;
+function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+window.addEventListener('resize', resize); resize();
+
+const particles=[];
+for(let i=0;i<80;i++){
+  particles.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*2+1, dx:(Math.random()-0.5)/1.5, dy:(Math.random()-0.5)/1.5});
+}
+function animateParticles(){
+  ctx.clearRect(0,0,w,h);
+  for(let p of particles){
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0)p.x=w; if(p.x>w)p.x=0;
+    if(p.y<0)p.y=h; if(p.y>h)p.y=0;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,255,153,0.5)';
+    ctx.fill();
+  }
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// AUTO DOWNLOAD
+function autoDownload(get,prog,bar,ins,wait,delay){
 setTimeout(()=>{
 let g=document.getElementById(get);
+let w=document.getElementById(wait);
 g.classList.add("pressed");
+w.style.display="inline-block";
 setTimeout(()=>{
 g.style.display="none";
 document.getElementById(prog).style.display="block";
@@ -318,15 +419,16 @@ if(width>=100){
 clearInterval(interval);
 document.getElementById(prog).style.display="none";
 document.getElementById(ins).style.display="block";
+w.style.display="none";
 }
 },200);
 },300);
 },delay);
 }
 
-autoDownload("get1","prog1","bar1","ins1",4000);
-autoDownload("get2","prog2","bar2","ins2",7000);
-autoDownload("get3","prog3","bar3","ins3",10000);
+autoDownload("get1","prog1","bar1","ins1","wait1",4000);
+autoDownload("get2","prog2","bar2","ins2","wait2",7000);
+autoDownload("get3","prog3","bar3","ins3","wait3",10000);
 
 function launchApp(type){
 let app=document.getElementById("fullApp");
