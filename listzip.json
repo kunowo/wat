@@ -1,10 +1,33 @@
 {
-  "files": [
+  "files":[
     {
-      "name": "WATES TOOLS 1.1",
-      "description": "Apk untuk lacak data orang by wates",
-      "path": "files/WATES TOOLS 1.1.apk",
-      "image": "img/Wates-apk.png"
+      "id":"f1",
+      "type":"folder",
+      "name":"Wates content",
+      "thumbnail":"img/Wates-apk.png",
+      "total":2,
+      "folderType":"apk",
+      "by":"Wates",
+      "children":[
+        {
+          "id":"file1",
+          "type":"apk",
+          "name":"WATES TOOLS 1.1",
+          "thumbnail":"img/Wates-apk.png",
+          "description":"Apk ini digunakan untuk melacak beberapa data.",
+          "by":"Wates",
+          "path":"files/WATES TOOLS 1.1.apk"
+        },
+        {
+          "id":"file1",
+          "type":"apk",
+          "name":"Wolfer V2",
+          "thumbnail":"img/Wates-apk.png",
+          "description":"Apk ini digunakan untuk bug wa.",
+          "by":"Wates",
+          "path":"files/wolfer v2 apk.apk"
+        }
+      ]
     }
   ]
 }
