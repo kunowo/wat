@@ -19,225 +19,45 @@ const CONFIG = {
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    background:#02040a;
-    color:#00e0ff;
-    font-family:'Orbitron',sans-serif;
-    overflow:hidden;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#02040a;color:#00e0ff;font-family:'Orbitron',sans-serif;overflow:hidden;}
 
 /* ================= INTRO ================= */
-.intro-screen{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:black;
-    color:#00e0ff;
-    font-family:'Share Tech Mono',monospace;
-    padding:40px;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    z-index:99999;
-}
-
-.terminal{
-    white-space:pre-line;
-    font-size:14px;
-    line-height:1.5;
-}
-
-.cursor{
-    display:inline-block;
-    width:10px;
-    background:#00e0ff;
-    animation:blink 1s infinite;
-}
-
-@keyframes blink{
-    0%{opacity:0;}
-    50%{opacity:1;}
-    100%{opacity:0;}
-}
-
-.logo-container{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(0);
-    opacity:0;
-    transition:1.5s ease;
-}
-
-.logo-container img{
-    width:150px;
-    filter:drop-shadow(0 0 20px #00e0ff);
-}
+.intro-screen{position:fixed;width:100%;height:100%;background:black;color:#00e0ff;font-family:'Share Tech Mono',monospace;padding:40px;display:flex;flex-direction:column;justify-content:flex-start;z-index:99999;}
+.terminal{white-space:pre-line;font-size:14px;line-height:1.5;}
+.cursor{display:inline-block;width:10px;background:#00e0ff;animation:blink 1s infinite;}
+@keyframes blink{0%{opacity:0;}50%{opacity:1;}100%{opacity:0;}}
+.logo-container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);opacity:0;transition:1.5s ease;}
+.logo-container img{width:150px;filter:drop-shadow(0 0 20px #00e0ff);}
 
 /* ================= LOGIN ================= */
-.login-screen{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    background:radial-gradient(circle at center,#051022 0%,#01030a 80%);
-    display:none;
-}
-
-.login-box{
-    background:rgba(10,20,40,0.7);
-    backdrop-filter:blur(15px);
-    padding:40px;
-    border-radius:15px;
-    border:1px solid #00e0ff55;
-    box-shadow:0 0 40px #00e0ff33;
-    width:90%;
-    max-width:420px;
-    opacity:0;
-    transform:translateY(20px);
-    transition: all 1s ease;
-}
-
-.login-box.show{
-    opacity:1;
-    transform:translateY(0);
-}
-
-input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    background:#000;
-    border:1px solid #00e0ff55;
-    color:#00e0ff;
-    border-radius:6px;
-}
-
-button{
-    padding:10px 16px;
-    background:#00e0ff;
-    border:none;
-    color:#000;
-    margin-top:10px;
-    cursor:pointer;
-    border-radius:6px;
-    transition:.3s;
-    font-weight:bold;
-}
-
-button:hover{
-    box-shadow:0 0 15px #00e0ff;
-    transform:scale(1.05);
-}
+.login-screen{height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background:radial-gradient(circle at center,#051022 0%,#01030a 80%);display:none;}
+.login-box{background:rgba(10,20,40,0.7);backdrop-filter:blur(15px);padding:40px;border-radius:15px;border:1px solid #00e0ff55;box-shadow:0 0 40px #00e0ff33;width:90%;max-width:420px;opacity:0;transform:translateY(20px);transition: all 1s ease;}
+.login-box.show{opacity:1;transform:translateY(0);}
+input{width:100%;padding:12px;margin:10px 0;background:#000;border:1px solid #00e0ff55;color:#00e0ff;border-radius:6px;}
+button{padding:10px 16px;background:#00e0ff;border:none;color:#000;margin-top:10px;cursor:pointer;border-radius:6px;transition:.3s;font-weight:bold;}
+button:hover{box-shadow:0 0 15px #00e0ff;transform:scale(1.05);}
 
 /* ================= OS ================= */
-.os-screen{
-    display:none;
-    height:100vh;
-    overflow:auto;
-    background:#020612;
-    padding-top:70px;
-    transition: opacity 1s ease;
-    opacity:0;
-}
-
-.os-screen.show{
-    display:block;
-    opacity:1;
-}
-
-.floating-bar{
-    position:fixed;
-    top:0;
-    width:100%;
-    height:60px;
-    background:rgba(0,20,40,0.8);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid #00e0ff33;
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
-    padding:0 10px;
-    z-index:999;
-    gap:10px;
-}
-
-.bar-search{
-    flex:1;
-    max-width:400px;
-    min-width:100px;
-    padding:6px 10px;
-    background:#000;
-    border:1px solid #00e0ff;
-    color:#00e0ff;
-    border-radius:6px;
-}
+.os-screen{display:none;height:100vh;overflow:auto;background:#020612;padding-top:70px;transition: opacity 1s ease;opacity:0;}
+.os-screen.show{display:block;opacity:1;}
+.floating-bar{position:fixed;top:0;width:100%;height:60px;background:rgba(0,20,40,0.8);backdrop-filter:blur(10px);border-bottom:1px solid #00e0ff33;display:flex;justify-content:flex-start;align-items:center;padding:0 10px;z-index:999;gap:10px;}
+.bar-search{flex:1;max-width:400px;min-width:100px;padding:6px 10px;background:#000;border:1px solid #00e0ff;color:#00e0ff;border-radius:6px;}
+.bar-type{padding:6px 10px;background:#000;border:1px solid #00e0ff;color:#00e0ff;border-radius:6px;cursor:pointer;margin-left:5px;}
+.bar-type.active{background:#00e0ff;color:#000;}
 
 /* ================= FILE ================= */
-.file-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-    gap:20px;
-    padding:20px;
-}
+.file-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding:20px;}
+.file-card, .folder-card{background:rgba(10,20,40,0.7);backdrop-filter:blur(10px);padding:15px;border-radius:12px;border:1px solid #00e0ff22;transition:.4s;}
+.file-card:hover, .folder-card:hover{transform:scale(1.05);box-shadow:0 0 20px #00e0ff55;}
+.file-card img, .folder-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;}
+.file-card h3,.folder-card h3{margin:5px 0;}
+.file-card p,.folder-card p{font-size:13px;line-height:1.2;margin-bottom:5px;}
 
-.file-card{
-    background:rgba(10,20,40,0.7);
-    backdrop-filter:blur(10px);
-    padding:15px;
-    border-radius:12px;
-    border:1px solid #00e0ff22;
-    transition:.4s;
-}
-
-.file-card:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 20px #00e0ff55;
-}
-
-.file-card img{
-    width:100%;
-    height:140px;
-    object-fit:cover;
-    border-radius:8px;
-}
-
-/* MODAL */
-.modal{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.8);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:999999;
-}
-
-.modal-box{
-    background:#0b1220;
-    padding:20px;
-    border-radius:10px;
-    border:1px solid #00e0ff;
-    width:90%;
-    max-width:400px;
-}
-
-textarea{
-    width:100%;
-    height:100px;
-    background:#000;
-    border:1px solid #00e0ff;
-    color:#00e0ff;
-    margin:10px 0;
-}
+/* ================= MODAL ================= */
+.modal{position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:999999;}
+.modal-box{background:#0b1220;padding:20px;border-radius:10px;border:1px solid #00e0ff;width:90%;max-width:400px;}
+textarea{width:100%;height:100px;background:#000;border:1px solid #00e0ff;color:#00e0ff;margin:10px 0;}
 </style>
 </head>
 <body>
@@ -264,7 +84,24 @@ textarea{
 <!-- OS -->
 <div class="os-screen" id="osScreen">
 <div class="floating-bar">
-<input class="bar-search" id="searchInput" placeholder="Search..." onkeyup="filterFiles()">
+<input class="bar-search" id="searchInput" placeholder="Search..." onkeyup="applyFilters()">
+<div id="typeFilters" style="display:flex; gap:5px; overflow-x:auto;">
+  <div class="bar-type active" data-type="All" onclick="toggleFilter(this)">All</div>
+  <div class="bar-type" data-type="Keperluan" onclick="toggleFilter(this)">Keperluan</div>
+  <div class="bar-type" data-type="apk" onclick="toggleFilter(this)">apk</div>
+  <div class="bar-type" data-type="ai" onclick="toggleFilter(this)">ai</div>
+  <div class="bar-type" data-type="chat" onclick="toggleFilter(this)">chat</div>
+  <div class="bar-type" data-type="bot" onclick="toggleFilter(this)">bot</div>
+  <div class="bar-type" data-type="server" onclick="toggleFilter(this)">server</div>
+  <div class="bar-type" data-type="control" onclick="toggleFilter(this)">control</div>
+  <div class="bar-type" data-type="panel" onclick="toggleFilter(this)">panel</div>
+  <div class="bar-type" data-type="file" onclick="toggleFilter(this)">file</div>
+  <div class="bar-type" data-type="txt" onclick="toggleFilter(this)">txt</div>
+  <div class="bar-type" data-type="web" onclick="toggleFilter(this)">web</div>
+</div>
+</div>
+<div id="backBtnContainer" style="padding:10px; display:none;">
+<button onclick="backToRoot()">BACK</button>
 </div>
 <div class="file-container" id="fileContainer"></div>
 </div>
@@ -291,25 +128,20 @@ Accessing satellite uplink...
 Establishing quantum firewall...
 System ready.
 `;
-
 let i=0;
 function typeBoot(){
     if(i<bootText.length){
         document.getElementById("terminal").innerHTML+=bootText.charAt(i);
         i++;
         setTimeout(typeBoot,20);
-    } else {
-        setTimeout(showLogo,500);
-    }
+    } else { setTimeout(showLogo,500); }
 }
-
 function showLogo(){
     const logo=document.getElementById("logo");
     logo.style.opacity="1";
     logo.style.transform="translate(-50%,-50%) scale(1)";
     setTimeout(endIntro,1500);
 }
-
 function endIntro(){
     document.getElementById("intro").style.transition="opacity 1s";
     document.getElementById("intro").style.opacity="0";
@@ -319,7 +151,6 @@ function endIntro(){
         document.getElementById("loginBox").classList.add("show");
     },1000);
 }
-
 typeBoot();
 
 /* ================= LOGIN ================= */
@@ -346,36 +177,116 @@ async function login(){
 }
 
 /* ================= FILE ================= */
-let ALL_FILES=[];
+let ALL_FILES=[]; // All files and folders
+let currentFolder=null;
+let activeFilters = new Set(['All']);
+
 async function loadFiles(){
     const res=await fetch(CONFIG.FILE_LIST_URL);
     const data=await res.json();
     ALL_FILES=data.files;
-    renderFiles(ALL_FILES);
+    renderFiles(getCurrentList());
 }
 
-function renderFiles(files){
+function getCurrentList(){
+    let list = ALL_FILES;
+    if(currentFolder){
+        const folder = findFolderById(currentFolder, ALL_FILES);
+        if(folder && folder.children) list = folder.children;
+        else list = [];
+    }
+    return list;
+}
+
+function findFolderById(id, arr){
+    for(const f of arr){
+        if(f.type==='folder'){
+            if(f.id===id) return f;
+            if(f.children){
+                const res=findFolderById(id, f.children);
+                if(res) return res;
+            }
+        }
+    }
+    return null;
+}
+
+function renderFiles(list){
     const container=document.getElementById("fileContainer");
     container.innerHTML="";
-    files.forEach(file=>{
-        container.innerHTML+=`
-        <div class="file-card">
-            <img src="${file.image}">
-            <h3>${file.name}</h3>
-            <p>${file.description}</p>
-            <a href="${file.path}" download>
-            <button>DOWNLOAD ZIP</button>
-            </a>
-        </div>`;
+    const backBtn=document.getElementById("backBtnContainer");
+    backBtn.style.display = currentFolder ? "block" : "none";
+
+    list.forEach(item=>{
+        if(item.type==='folder'){
+            container.innerHTML+=`
+            <div class="folder-card">
+                <img src="${item.thumbnail}">
+                <h3>${item.name}</h3>
+                <p>Total file: ${item.total}</p>
+                <p>Type: ${item.folderType}</p>
+                <p>By: ${item.by}</p>
+                <button onclick="openFolder('${item.id}')">OPEN</button>
+            </div>`;
+        } else {
+            container.innerHTML+=`
+            <div class="file-card">
+                <img src="${item.thumbnail}">
+                <h3>${item.name}</h3>
+                <p>Desk: ${item.description}</p>
+                <p>Type: ${item.type}</p>
+                <p>By: ${item.by}</p>
+                <a href="${item.path}" download><button>INSTALL</button></a>
+            </div>`;
+        }
     });
 }
 
-function filterFiles(){
-    const key=document.getElementById("searchInput").value.toLowerCase();
-    renderFiles(ALL_FILES.filter(f=>
-        f.name.toLowerCase().includes(key) ||
-        f.description.toLowerCase().includes(key)
-    ));
+function toggleFilter(el){
+    const type = el.getAttribute('data-type');
+    if(type==='All'){
+        activeFilters.clear();
+        activeFilters.add('All');
+    } else {
+        if(activeFilters.has('All')) activeFilters.delete('All');
+        if(activeFilters.has(type)) activeFilters.delete(type);
+        else activeFilters.add(type);
+        if(activeFilters.size===0) activeFilters.add('All');
+    }
+    document.querySelectorAll('.bar-type').forEach(b=>{
+        const t = b.getAttribute('data-type');
+        b.classList.toggle('active', activeFilters.has(t));
+    });
+    applyFilters();
+}
+
+function applyFilters(){
+    const searchKey=document.getElementById("searchInput").value.toLowerCase();
+    let list = getCurrentList();
+
+    let filtered = list.filter(f=>{
+        let typeMatch=false;
+        if(activeFilters.has('All')) typeMatch=true;
+        else {
+            if(f.type==='folder' && activeFilters.has(f.folderType)) typeMatch=true;
+            else if(f.type!=='folder' && activeFilters.has(f.type)) typeMatch=true;
+        }
+        const searchMatch = f.name.toLowerCase().includes(searchKey) ||
+                            f.description?.toLowerCase().includes(searchKey) ||
+                            f.folderType?.toLowerCase().includes(searchKey);
+        return typeMatch && searchMatch;
+    });
+    renderFiles(filtered);
+}
+
+function openFolder(id){
+    currentFolder=id;
+    applyFilters();
+}
+
+function backToRoot(){
+    currentFolder=null;
+    applyFilters();
 }
 
 /* ================= MODAL ================= */
@@ -385,9 +296,7 @@ function openModal(type){
     document.getElementById("modal").style.display="flex";
     document.getElementById("modalTitle").innerText=type==="bug"?"REPORT BUG":"SARAN";
 }
-
 function closeModal(){document.getElementById("modal").style.display="none";}
-
 function sendReport(){
     const text=document.getElementById("modalText").value;
     if(text.trim()==="") return alert("Isi dulu!");
@@ -408,6 +317,5 @@ function sendTelegram(msg){
     }).catch(e=>console.log("Telegram Error:",e));
 }
 </script>
-
 </body>
 </html>
