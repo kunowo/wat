@@ -21,6 +21,15 @@
         {
           "id":"file1",
           "type":"apk",
+          "name":"THE NOKOS FRESH UPDATE",
+          "thumbnail":"img/Wates-apk.png",
+          "description":"Apk generator no telp.",
+          "by":"Wates",
+          "path":"files/THE NOKOS FRESH UPDATE.apk"
+        },
+        {
+          "id":"file1",
+          "type":"apk",
           "name":"Wolfer V2",
           "thumbnail":"img/Wates-apk.png",
           "description":"Apk ini digunakan untuk bug wa.",
