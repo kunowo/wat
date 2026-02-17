@@ -1,465 +1,411 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WAT Society</title>
+<title>W.A.T AGENCY OS OMEGA</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<!-- ================= CONFIG ================= -->
+<script>
+const CONFIG = {
+    TELEGRAM_BOT_TOKEN: "7990932664:AAHPMqCQxQ6EPUdYnCXPx5TQxOv34h6u1uE",
+    TELEGRAM_CHAT_ID: "7181109218",
+    FILE_LIST_URL: "listzip.json",
+    PASSWORD_FILE: "pw.json"
+};
+</script>
+<!-- ========================================== -->
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-  background:linear-gradient(135deg,#0f0f14,#1a1a25);
-  height:100vh;
-  overflow:hidden;
-  color:white;
-  position:relative;
+    background:#02040a;
+    color:#00e0ff;
+    font-family:'Orbitron',sans-serif;
+    overflow:hidden;
 }
 
-/* PARTICLE BACKGROUND */
-#particles{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  z-index:0;
-  pointer-events:none;
+/* ================= INTRO ================= */
+.intro-screen{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
+    color:#00e0ff;
+    font-family:'Share Tech Mono',monospace;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    z-index:99999;
 }
 
-/* SPLASH */
-.splash{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:9999;
-  animation:fadeOut 1s ease forwards;
-  animation-delay:3s;
-}
-.splash img{width:120px;animation:pop 1.5s infinite alternate;}
-.splash h2{
-  margin-top:15px;
-  font-weight:600;
-  font-size:22px;
-  animation:fadeText 1.5s infinite alternate;
-}
-@keyframes pop{from{transform:scale(1);}to{transform:scale(1.1);}}
-@keyframes fadeOut{to{opacity:0;visibility:hidden;}}
-@keyframes fadeText{from{opacity:0.6;}to{opacity:1;}}
-
-/* APP STORE */
-.appstore{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:rgba(17,17,17,0.95);
-  padding:25px;
-  z-index:999;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-  animation:hideStore 1s ease forwards;
-  animation-delay:15s;
-  overflow-y:auto;
-}
-@keyframes hideStore{to{opacity:0;visibility:hidden;}}
-.store-title{
-  font-size:24px;
-  font-weight:800;
-  text-align:center;
-  margin-bottom:10px;
-  letter-spacing:1px;
-}
-.store-item{
-  background:rgba(255,255,255,0.05);
-  border-radius:20px;
-  padding:15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  backdrop-filter:blur(10px);
-  transition:.3s;
-  position:relative;
-  overflow:hidden;
-}
-.store-item:hover{
-  transform:scale(1.02);
-  box-shadow:0 10px 30px rgba(0,255,153,0.3);
-}
-.store-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.store-left img{
-  width:50px;
-  border-radius:14px;
-  animation:iconPop 2s infinite alternate, floatIcon 4s ease-in-out infinite;
-}
-@keyframes iconPop{from{transform:scale(1);}to{transform:scale(1.1);}}
-@keyframes floatIcon{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
-
-.app-info h3{font-size:16px;}
-.app-info p{font-size:12px;opacity:.6;}
-
-.get-btn{
-  padding:8px 18px;
-  border-radius:20px;
-  background:#007aff;
-  font-weight:600;
-  transition:.3s, box-shadow .3s;
-  cursor:pointer;
-}
-.get-btn:hover{
-  background:#00ccff;
-  transform:scale(1.1);
-  box-shadow:0 0 15px #00ffcc;
-}
-.get-btn.pressed{
-  transform:scale(.85);
-  animation:flashBtn .3s;
-}
-@keyframes flashBtn{0%{background:#00ff99;}100%{background:#007aff;}}
-
-.progress{
-  width:100px;
-  height:8px;
-  background:rgba(255,255,255,0.1);
-  border-radius:10px;
-  overflow:hidden;
-  display:none;
-  position:absolute;
-  right:18px;
-  top:50%;
-  transform:translateY(-50%);
+.terminal{
+    white-space:pre-line;
+    font-size:14px;
+    line-height:1.5;
 }
 
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:#00ff99;
-  transition:width .2s;
+.cursor{
+    display:inline-block;
+    width:10px;
+    background:#00e0ff;
+    animation:blink 1s infinite;
 }
 
-.installed{
-  font-size:13px;
-  color:#00ff99;
-  display:none;
+@keyframes blink{
+    0%{opacity:0;}
+    50%{opacity:1;}
+    100%{opacity:0;}
 }
 
-/* Please Wait Text */
-.wait-text{
-  font-size:12px;
-  color:#00ff99;
-  opacity:0.7;
-  margin-top:5px;
-  display:none;
-  animation:blink 1s infinite;
-}
-@keyframes blink{0%,50%,100%{opacity:0.7;}25%,75%{opacity:0;}}
-
-/* MAIN UI */
-.container{
-  padding:30px;
-  opacity:0;
-  animation:showMain 1s ease forwards;
-  animation-delay:16s;
-  position:relative;
-  z-index:1;
-}
-@keyframes showMain{to{opacity:1;}}
-
-.header{text-align:center;margin-bottom:40px;}
-.header h1{font-size:32px;font-weight:800;}
-.header p{opacity:.6;margin-top:8px;}
-
-.apps{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:25px;
-  justify-items:center;
+.logo-container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    opacity:0;
+    transition:1.5s ease;
 }
 
-.app{
-  width:90px;
-  text-align:center;
-  cursor:pointer;
-  transition:.3s;
-  position:relative;
-}
-.app:active{transform:scale(.85);}
-.app:hover{transform:scale(1.1);}
-.app-icon{
-  width:90px;
-  height:90px;
-  border-radius:25px;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.5);
-  transition:.3s, box-shadow .3s;
-}
-.app-icon:hover{box-shadow:0 10px 40px #00ff99;}
-.app-icon img{width:60%;}
-.app-name{margin-top:8px;font-size:14px;}
-
-/* FULLSCREEN APP */
-.fullscreen-app{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:#12121a;
-  top:0;
-  left:0;
-  z-index:2000;
-  display:flex;
-  flex-direction:column;
-  padding:30px;
-  transform:scale(0);
-  border-radius:40px;
-  transition:.4s ease, opacity .4s;
-  opacity:0;
-}
-.fullscreen-app.active{
-  transform:scale(1);
-  border-radius:0;
-  opacity:1;
+.logo-container img{
+    width:150px;
+    filter:drop-shadow(0 0 20px #00e0ff);
 }
 
-.close-app{
-  margin-top:auto;
-  text-align:center;
-  opacity:.6;
-  cursor:pointer;
-  padding:15px;
-  transition:.3s;
+/* ================= LOGIN ================= */
+.login-screen{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:radial-gradient(circle at center,#051022 0%,#01030a 80%);
+    display:none;
 }
-.close-app:hover{opacity:1;color:#00ff99;}
 
-/* POPUP */
-.popup{
-  position:fixed;
-  bottom:-100%;
-  left:0;
-  width:100%;
-  background:#1e1e2a;
-  border-radius:25px 25px 0 0;
-  padding:25px;
-  box-shadow:0 -10px 40px rgba(0,0,0,.6);
-  transition:.4s ease;
+.login-box{
+    background:rgba(10,20,40,0.7);
+    backdrop-filter:blur(15px);
+    padding:40px;
+    border-radius:15px;
+    border:1px solid #00e0ff55;
+    box-shadow:0 0 40px #00e0ff33;
+    width:90%;
+    max-width:420px;
+    opacity:0;
+    transform:translateY(20px);
+    transition: all 1s ease;
 }
-.popup.active{bottom:0;}
-.btn{
-  display:inline-block;
-  padding:12px 18px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#00ff99,#00ccff);
-  color:black;
-  font-weight:600;
-  text-decoration:none;
-  transition:.3s, box-shadow .3s;
-}
-.btn:hover{transform:scale(1.05);box-shadow:0 0 15px #00ff99;}
-.close{text-align:center;margin-top:15px;opacity:.5;cursor:pointer;}
-.footer{position:absolute;bottom:20px;width:100%;text-align:center;opacity:.4;font-size:12px;}
 
-/* Animated Background Gradient */
-@keyframes gradientBG{
-  0%{background:linear-gradient(135deg,#0f0f14,#1a1a25);}
-  50%{background:linear-gradient(135deg,#1a1a25,#0f0f14);}
-  100%{background:linear-gradient(135deg,#0f0f14,#1a1a25);}
+.login-box.show{
+    opacity:1;
+    transform:translateY(0);
 }
-body{animation:gradientBG 20s ease infinite;}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    background:#000;
+    border:1px solid #00e0ff55;
+    color:#00e0ff;
+    border-radius:6px;
+}
+
+button{
+    padding:10px 16px;
+    background:#00e0ff;
+    border:none;
+    color:#000;
+    margin-top:10px;
+    cursor:pointer;
+    border-radius:6px;
+    transition:.3s;
+    font-weight:bold;
+}
+
+button:hover{
+    box-shadow:0 0 15px #00e0ff;
+    transform:scale(1.05);
+}
+
+/* ================= OS ================= */
+.os-screen{
+    display:none;
+    height:100vh;
+    overflow:auto;
+    background:#020612;
+    padding-top:70px;
+    transition: opacity 1s ease;
+    opacity:0;
+}
+
+.os-screen.show{
+    display:block;
+    opacity:1;
+}
+
+.floating-bar{
+    position:fixed;
+    top:0;
+    width:100%;
+    height:60px;
+    background:rgba(0,20,40,0.8);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #00e0ff33;
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+    padding:0 10px;
+    z-index:999;
+    gap:10px;
+}
+
+.bar-search{
+    flex:1;
+    max-width:400px;
+    min-width:100px;
+    padding:6px 10px;
+    background:#000;
+    border:1px solid #00e0ff;
+    color:#00e0ff;
+    border-radius:6px;
+}
+
+/* ================= FILE ================= */
+.file-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;
+    padding:20px;
+}
+
+.file-card{
+    background:rgba(10,20,40,0.7);
+    backdrop-filter:blur(10px);
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #00e0ff22;
+    transition:.4s;
+}
+
+.file-card:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px #00e0ff55;
+}
+
+.file-card img{
+    width:100%;
+    height:140px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+}
+
+.modal-box{
+    background:#0b1220;
+    padding:20px;
+    border-radius:10px;
+    border:1px solid #00e0ff;
+    width:90%;
+    max-width:400px;
+}
+
+textarea{
+    width:100%;
+    height:100px;
+    background:#000;
+    border:1px solid #00e0ff;
+    color:#00e0ff;
+    margin:10px 0;
+}
 </style>
 </head>
 <body>
 
-<!-- PARTICLE CANVAS -->
-<canvas id="particles"></canvas>
-
-<!-- SPLASH -->
-<div class="splash">
-  <img src="WAT.png">
-  <h2>Launching WAT Society</h2>
-</div>
-
-<!-- APP STORE -->
-<div class="appstore">
-<div class="store-title">App Store</div>
-
-<div class="store-item">
-<div class="store-left">
-<img src="WAT.png">
-<div class="app-info">
-<h3>About</h3>
-<p>About the<br>Community</p>
-<div class="wait-text" id="wait1">Please wait...</div>
-</div>
-</div>
-<div class="get-btn" id="get1">GET</div>
-<div class="progress" id="prog1"><div class="progress-bar" id="bar1"></div></div>
-<div class="installed" id="ins1">Installed</div>
-</div>
-
-<div class="store-item">
-<div class="store-left">
-<img src="">
-<div class="app-info">
-<h3>Mission</h3>
-<p>Community<br>Mission</p>
-<div class="wait-text" id="wait2">Please wait...</div>
-</div>
-</div>
-<div class="get-btn" id="get2">GET</div>
-<div class="progress" id="prog2"><div class="progress-bar" id="bar2"></div></div>
-<div class="installed" id="ins2">Installed</div>
-</div>
-
-<div class="store-item">
-<div class="store-left">
-<img src="">
-<div class="app-info">
-<h3>Join</h3>
-<p>Community<br>Join Link</p>
-<div class="wait-text" id="wait3">Please wait...</div>
-</div>
-</div>
-<div class="get-btn" id="get3">GET</div>
-<div class="progress" id="prog3"><div class="progress-bar" id="bar3"></div></div>
-<div class="installed" id="ins3">Installed</div>
-</div>
-
-</div>
-
-<!-- MAIN UI -->
-<div class="container">
-<div class="header">
-<h1>WAT Society</h1>
-<p>We Are There — Coding & Technology Community</p>
-</div>
-
-<div class="apps">
-<div class="app" onclick="launchApp('about')">
-<div class="app-icon"><img src="WAT.png"></div>
-<div class="app-name">About</div>
-</div>
-
-<div class="app" onclick="launchApp('mission')">
-<div class="app-icon">💻</div>
-<div class="app-name">Mission</div>
-</div>
-
-<div class="app" onclick="launchApp('join')">
-<div class="app-icon">🚀</div>
-<div class="app-name">Join</div>
-</div>
+<!-- INTRO -->
+<div class="intro-screen" id="intro">
+<div class="terminal" id="terminal"></div>
+<div class="logo-container" id="logo">
+    <img src="img/WAT.png">
 </div>
 </div>
 
-<!-- FULLSCREEN APP -->
-<div class="fullscreen-app" id="fullApp">
-<h2 id="appTitle"></h2>
-<p id="appContent" style="margin-top:15px;opacity:.7;white-space:pre-line;"></p>
-<a id="appBtn" class="btn" target="_blank" style="margin-top:20px;"></a>
-<div class="close-app" onclick="closeApp()">Close App</div>
+<!-- LOGIN -->
+<div class="login-screen">
+<div class="login-box" id="loginBox">
+<h2>W.A.T AGENCY ACCESS</h2>
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">LOGIN</button>
+<p id="loginMsg"></p>
+</div>
 </div>
 
-<div class="footer">© 2026 WAT Society</div>
+<!-- OS -->
+<div class="os-screen" id="osScreen">
+<div class="floating-bar">
+<input class="bar-search" id="searchInput" placeholder="Search..." onkeyup="filterFiles()">
+</div>
+<div class="file-container" id="fileContainer"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-box">
+<h3 id="modalTitle"></h3>
+<textarea id="modalText"></textarea>
+<button onclick="sendReport()">SEND</button>
+<button onclick="closeModal()">CLOSE</button>
+</div>
+</div>
 
 <script>
-// PARTICLE BACKGROUND
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let w, h;
-function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
-window.addEventListener('resize', resize); resize();
+/* ================= INTRO ================= */
+const bootText = `
+Booting W.A.T OMEGA SYSTEM...
+Initializing secure protocols...
+Checking encrypted partitions...
+Loading classified modules...
+Decrypting agency network...
+Accessing satellite uplink...
+Establishing quantum firewall...
+System ready.
+`;
 
-const particles=[];
-for(let i=0;i<80;i++){
-  particles.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*2+1, dx:(Math.random()-0.5)/1.5, dy:(Math.random()-0.5)/1.5});
-}
-function animateParticles(){
-  ctx.clearRect(0,0,w,h);
-  for(let p of particles){
-    p.x+=p.dx; p.y+=p.dy;
-    if(p.x<0)p.x=w; if(p.x>w)p.x=0;
-    if(p.y<0)p.y=h; if(p.y>h)p.y=0;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle='rgba(0,255,153,0.5)';
-    ctx.fill();
-  }
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-// AUTO DOWNLOAD
-function autoDownload(get,prog,bar,ins,wait,delay){
-setTimeout(()=>{
-let g=document.getElementById(get);
-let w=document.getElementById(wait);
-g.classList.add("pressed");
-w.style.display="inline-block";
-setTimeout(()=>{
-g.style.display="none";
-document.getElementById(prog).style.display="block";
-let width=0;
-let interval=setInterval(()=>{
-width+=10;
-document.getElementById(bar).style.width=width+"%";
-if(width>=100){
-clearInterval(interval);
-document.getElementById(prog).style.display="none";
-document.getElementById(ins).style.display="block";
-w.style.display="none";
-}
-},200);
-},300);
-},delay);
+let i=0;
+function typeBoot(){
+    if(i<bootText.length){
+        document.getElementById("terminal").innerHTML+=bootText.charAt(i);
+        i++;
+        setTimeout(typeBoot,20);
+    } else {
+        setTimeout(showLogo,500);
+    }
 }
 
-autoDownload("get1","prog1","bar1","ins1","wait1",4000);
-autoDownload("get2","prog2","bar2","ins2","wait2",7000);
-autoDownload("get3","prog3","bar3","ins3","wait3",10000);
-
-function launchApp(type){
-let app=document.getElementById("fullApp");
-let title=document.getElementById("appTitle");
-let content=document.getElementById("appContent");
-let btn=document.getElementById("appBtn");
-
-if(type==="about"){
-title.innerText="About WAT Society";
-content.innerText="WAT Society adalah komunitas inovatif yang mengumpulkan para penggemar coding, teknologi, dan pengembangan digital. Di sini, setiap anggota punya kesempatan untuk belajar, berbagi, dan berkolaborasi dalam berbagai proyek teknologi mulai dari pemrograman, pengembangan web, hingga eksplorasi AI dan hardware. WAT Society bukan hanya tentang skill, tapi juga tentang membangun jaringan, inspirasi, dan menghadirkan ide-ide kreatif yang nyata.";
-btn.style.display="none";
-}
-if (type === "mission") {
-  title.innerText = "Our Mission";
-  content.innerText = "1. Mengedukasi dan menginspirasi anggota dalam dunia teknologi dan coding.\n\n2. Membuka peluang kolaborasi proyek teknologi antar anggota.\n\n3. Menjadi wadah untuk berbagi pengetahuan dan pengalaman nyata di bidang digital.";
-  btn.style.display = "none";
-}
-if(type==="join"){
-title.innerText="Join WAT Society";
-content.innerText="Gabung sekarang dan jadi bagian dari komunitas teknologi!";
-btn.innerText="Join WhatsApp";
-btn.href="https://chat.whatsapp.com/InVO8hTylrN7w5lYDMHN8J";
-btn.style.display="inline-block";
+function showLogo(){
+    const logo=document.getElementById("logo");
+    logo.style.opacity="1";
+    logo.style.transform="translate(-50%,-50%) scale(1)";
+    setTimeout(endIntro,1500);
 }
 
-app.classList.add("active");
+function endIntro(){
+    document.getElementById("intro").style.transition="opacity 1s";
+    document.getElementById("intro").style.opacity="0";
+    setTimeout(()=>{
+        document.getElementById("intro").style.display="none";
+        document.querySelector(".login-screen").style.display="flex";
+        document.getElementById("loginBox").classList.add("show");
+    },1000);
 }
 
-function closeApp(){
-let app=document.getElementById("fullApp");
-app.classList.remove("active");
+typeBoot();
+
+/* ================= LOGIN ================= */
+async function login(){
+    const user=document.getElementById("username").value;
+    const pass=document.getElementById("password").value;
+    const res=await fetch(CONFIG.PASSWORD_FILE);
+    const data=await res.json();
+    const found=data.users.find(u=>u.username===user && u.password===pass);
+    if(found){
+        document.getElementById("loginBox").style.transition="all 1s ease";
+        document.getElementById("loginBox").style.opacity="0";
+        document.getElementById("loginBox").style.transform="translateY(20px)";
+        setTimeout(()=>{
+            document.querySelector(".login-screen").style.display="none";
+            const os=document.getElementById("osScreen");
+            os.classList.add("show");
+            sendTelegram(`🔐 Login\nUser: ${user}`);
+            loadFiles();
+        },1000);
+    }else{
+        document.getElementById("loginMsg").innerText="ACCESS DENIED";
+    }
+}
+
+/* ================= FILE ================= */
+let ALL_FILES=[];
+async function loadFiles(){
+    const res=await fetch(CONFIG.FILE_LIST_URL);
+    const data=await res.json();
+    ALL_FILES=data.files;
+    renderFiles(ALL_FILES);
+}
+
+function renderFiles(files){
+    const container=document.getElementById("fileContainer");
+    container.innerHTML="";
+    files.forEach(file=>{
+        container.innerHTML+=`
+        <div class="file-card">
+            <img src="${file.image}">
+            <h3>${file.name}</h3>
+            <p>${file.description}</p>
+            <a href="${file.path}" download>
+            <button>DOWNLOAD ZIP</button>
+            </a>
+        </div>`;
+    });
+}
+
+function filterFiles(){
+    const key=document.getElementById("searchInput").value.toLowerCase();
+    renderFiles(ALL_FILES.filter(f=>
+        f.name.toLowerCase().includes(key) ||
+        f.description.toLowerCase().includes(key)
+    ));
+}
+
+/* ================= MODAL ================= */
+let CURRENT_TYPE="";
+function openModal(type){
+    CURRENT_TYPE=type;
+    document.getElementById("modal").style.display="flex";
+    document.getElementById("modalTitle").innerText=type==="bug"?"REPORT BUG":"SARAN";
+}
+
+function closeModal(){document.getElementById("modal").style.display="none";}
+
+function sendReport(){
+    const text=document.getElementById("modalText").value;
+    if(text.trim()==="") return alert("Isi dulu!");
+    sendTelegram(`📩 ${CURRENT_TYPE.toUpperCase()}\n${text}`);
+    document.getElementById("modalText").value="";
+    closeModal();
+}
+
+/* ================= TELEGRAM ================= */
+function sendTelegram(msg){
+    fetch(`https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/sendMessage`,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            chat_id:CONFIG.TELEGRAM_CHAT_ID,
+            text:msg
+        })
+    }).catch(e=>console.log("Telegram Error:",e));
 }
 </script>
 
